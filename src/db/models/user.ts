@@ -15,6 +15,7 @@ export class User extends Model<
   declare user_id: CreationOptional<string>;
   declare lat: CreationOptional<number>;
   declare lon: CreationOptional<number>;
+  declare is_recommend_lunch: CreationOptional<boolean>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 }
@@ -40,6 +41,11 @@ export const initUser = (sequelize: Sequelize): void => {
       lon: {
         type: DataTypes.DOUBLE,
         allowNull: true,
+      },
+      is_recommend_lunch: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
