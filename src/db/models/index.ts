@@ -7,7 +7,7 @@ import configData from "../config/config";
 
 const configs: Config = configData;
 //임시
-const env = "development";
+const env = "test"; 
 const config = configs[env];
 
 interface DB {
