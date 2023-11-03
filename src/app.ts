@@ -32,7 +32,7 @@ sequelzie
 
 app.listen(3000, () => {
   console.log("Server On");
-  schedule.scheduleJob('* * * * * *', function(){
+  schedule.scheduleJob('0 * * * * *', function(){
     dbScheduler()
   });
 });
