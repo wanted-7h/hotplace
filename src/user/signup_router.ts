@@ -11,7 +11,8 @@ export const signupRouter = s.router(signUpContract, {
       where: { user_id: body.userId },
       raw: true,
     });
-    if (!isDuplication)
+
+    if (isDuplication)
       return {
         status: 400,
         body: { error: "중복된 아이디" },
@@ -21,38 +22,51 @@ export const signupRouter = s.router(signUpContract, {
     const signupInfo = {
       user_id: body.userId,
       password: password,
-      lat: parseFloat(body.lat),
-      lon: parseFloat(body.lon),
-      is_recommend_lunch: body.isRecommendLunch === "true" ? true : false,
+      lat: body.lat,
+      lon: body.lat,
+      is_recommend_lunch: body.isRecommendLunch,
     };
 
-    const insertUser = await db.User.create(signupInfo);
-    console.log("userinsert", insertUser.dataValues);
+    const insertValue = await db.User.create(signupInfo);
 
     return {
       status: 201,
-      body: body,
+      body: {
+        userId: insertValue.dataValues.user_id,
+        lat: insertValue.dataValues.lat,
+        lon: insertValue.dataValues.lon,
+        isRecommendLunch: insertValue.dataValues.is_recommend_lunch,
+      },
     };
   },
+
   signin: async ({ body }) => {
     const userPassword = await db.User.findOne({
       attributes: ["password"],
       where: { user_id: body.userId },
       raw: true,
     });
+
+    if (!userPassword)
+      return {
+        status: 404,
+        body: { error: "해당 아이디가 없음" },
+      };
+
     const result = userPassword?.password
       ? await compare(body.password, userPassword.password)
       : false;
 
     if (result) {
+      //todo jwt 생성, 적용
       return {
         status: 200,
-        body: { msg: "ss" },
+        body: { message: "로그인 성공" },
       };
     } else {
       return {
-        status: 404,
-        body: { error: "N F" },
+        status: 400,
+        body: { error: "비밀번호가 맞지 않음" },
       };
     }
   },
