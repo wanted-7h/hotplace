@@ -1,9 +1,9 @@
-import dotenv from "dotenv";
 import express from "express";
-import sequelzie from "./db/models";
+import db from "./db/models";
 import morgan from "morgan";
 import testRouter from "./test/test.router";
-dotenv.config();
+import { createExpressEndpoints } from "@ts-rest/express";
+import { signUpContract, signupRouter } from "./user/signup_contract";
 
 const app = express();
 
@@ -13,8 +13,9 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api", testRouter);
+createExpressEndpoints(signUpContract, signupRouter, app);
 
-sequelzie
+db.sequelize
   .sync({
     force: true, //임시
   })
