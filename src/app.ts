@@ -2,11 +2,12 @@ import express from "express";
 import morgan from "morgan";
 import testRouter from "./test/test.router";
 import dotenv from "dotenv";
-import { createExpressEndpoints } from "@ts-rest/express";
 import { signUpContract, signupRouter } from "./user/signup_contract";
 import { dbScheduler } from "./scheduler/scheduler";
 import db from "./db/models";
 import schedule from "node-schedule";
+import { createExpressEndpoints, initServer } from "@ts-rest/express";
+import { contract } from "./contracts";
 
 dotenv.config();
 
@@ -30,6 +31,20 @@ db.sequelize
   .catch((err) => {
     console.error(err);
   });
+
+const s = initServer();
+const router = s.router(contract, {
+  createPost: async ({ body: { body, title } }) => ({
+    status: 201,
+    body: { id: "1", body: body, title: title },
+  }),
+  getPost: async ({ params: { id } }) => ({
+    status: 200,
+    body: { id, body: "test body", title: "test" },
+  }),
+});
+
+createExpressEndpoints(contract, router, app);
 
 app.listen(3000, () => {
   console.log("Server On");
