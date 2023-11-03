@@ -19,48 +19,48 @@ export class Restaurant extends Model<
   declare lon: CreationOptional<number>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
-}
 
-export const initRestaurant = (sequelize: Sequelize): void => {
-  Restaurant.init(
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
+  static initRestaurant = (sequelize: Sequelize): void => {
+    Restaurant.init(
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+        },
+        restaurant_name: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          primaryKey: true,
+        },
+        restaurant_type: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        adress: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        lat: {
+          type: DataTypes.DOUBLE,
+          allowNull: false,
+        },
+        lon: {
+          type: DataTypes.DOUBLE,
+          allowNull: false,
+        },
+        createdAt: DataTypes.DATE,
+        updatedAt: DataTypes.DATE,
       },
-      restaurant_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        primaryKey: true,
-      },
-      restaurant_type: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      adress: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      lat: {
-        type: DataTypes.DOUBLE,
-        allowNull: false,
-      },
-      lon: {
-        type: DataTypes.DOUBLE,
-        allowNull: false,
-      },
-      createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE,
-    },
-    {
-      modelName: "Restaurant",
-      tableName: "restaurant",
-      charset: "utf8",
-      collate: "utf8_general_ci",
-      timestamps: true,
-      sequelize,
-    }
-  );
-};
+      {
+        modelName: "Restaurant",
+        tableName: "restaurant",
+        charset: "utf8",
+        collate: "utf8_general_ci",
+        timestamps: true,
+        sequelize,
+      }
+    );
+  };
+}

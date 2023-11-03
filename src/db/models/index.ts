@@ -1,8 +1,8 @@
 import { Sequelize } from "sequelize";
 import { Config } from "../../types";
-import { User, initUser } from "./user";
-import { Restaurant, initRestaurant } from "./restaurant";
-import { Review, initReview } from "./review";
+import { User } from "./user";
+import { Restaurant } from "./restaurant";
+import { Review } from "./review";
 import configData from "../config/config";
 
 const configs: Config = configData;
@@ -15,8 +15,6 @@ interface DB {
   sequelize?: Sequelize;
 }
 
-const db: DB = {};
-
 const sequelize = new Sequelize(
   config.database,
   config.username,
@@ -26,14 +24,20 @@ const sequelize = new Sequelize(
     dialect: "mysql",
   }
 );
+const db = {
+  sequelize: sequelize,
+  User: User,
+  Review: Review,
+  Restaurant: Restaurant,
+};
 
-initUser(sequelize);
-initRestaurant(sequelize);
-initReview(sequelize);
+db.User.initUser(sequelize);
+db.Review.initReview(sequelize);
+db.Restaurant.initRestaurant(sequelize);
 
-User.hasMany(Review, { foreignKey: "user_id" });
-Review.belongsTo(User, { foreignKey: "user_id" });
-Restaurant.hasMany(Review, { foreignKey: "restaurant_name" });
-Review.belongsTo(Restaurant, { foreignKey: "restaurant_name" });
+db.User.hasMany(Review, { foreignKey: "user_id" });
+db.Review.belongsTo(User, { foreignKey: "user_id" });
+db.Restaurant.hasMany(Review, { foreignKey: "restaurant_name" });
+db.Review.belongsTo(Restaurant, { foreignKey: "restaurant_name" });
 
-export default sequelize;
+export default db;
