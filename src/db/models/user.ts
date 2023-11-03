@@ -61,7 +61,7 @@ export class User extends Model<
         charset: "utf8",
         collate: "utf8_general_ci",
         sequelize,
-      }
+      },
     );
   };
 }

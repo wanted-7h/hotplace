@@ -60,7 +60,7 @@ export class Restaurant extends Model<
         collate: "utf8_general_ci",
         timestamps: true,
         sequelize,
-      }
+      },
     );
   };
 }
