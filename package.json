@@ -5,8 +5,9 @@
   "main": "./src/app.ts",
   "scripts": {
     "start": "ts-node ./src/app.ts",
-    "dev": "node --watch -r ts-node/register src/app.ts",
-    "test": "node --watch -r ts-node/register --test src/**/*.test.ts"
+    "dev": "node --watch -r ts-node/register ./src/app.ts",
+    "test": "node -r ts-node/register --test ./src/**/*.test.ts",
+    "test:watch": "node --watch -r ts-node/register --test ./src/**/*.test.ts"
   },
   "keywords": [],
   "author": "",
