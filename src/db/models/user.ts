@@ -12,11 +12,11 @@ export class User extends Model<
   InferCreationAttributes<User>
 > {
   declare id: CreationOptional<number>;
-  declare user_id: string;
-  declare password: string;
-  declare lat: number;
-  declare lon: number;
-  declare is_recommend_lunch: boolean;
+  declare password: CreationOptional<string>;
+  declare user_id: CreationOptional<string>;
+  declare lat: CreationOptional<number>;
+  declare lon: CreationOptional<number>;
+  declare is_recommend_lunch: CreationOptional<boolean>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
