@@ -54,7 +54,7 @@ export class Review extends Model<
         charset: "utf8",
         collate: "utf8_general_ci",
         sequelize,
-      }
+      },
     );
   };
 }

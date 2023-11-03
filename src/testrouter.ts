@@ -1,7 +1,6 @@
 import { initContract } from "@ts-rest/core";
 import { z } from "zod";
 
-
 export const contract = initContract();
 
 const PostSchema = z.object({
@@ -20,5 +19,3 @@ export const apiContract = contract.router({
     summary: "Transcribe YouTube video by videoUrl",
   },
 });
-
-
