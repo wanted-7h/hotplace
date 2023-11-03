@@ -50,14 +50,14 @@ export const signUpContract = contract.router({
     summary: "로그인",
   },
 
-  // getUserInfo: {
-  //   method: "GET",
-  //   path: "/users",
-  //   responses: {
-  //     200: UserSettingSchema,
-  //   },
-  //   summary: "유저 정보 불러오기",
-  // },
+  getUserInfo: {
+    method: "GET",
+    path: "/users",
+    responses: {
+      200: UserSettingSchema,
+    },
+    summary: "유저 정보 불러오기",
+  },
 
   // updateUserInfo: {
   //   method: "PUT",

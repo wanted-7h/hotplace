@@ -70,6 +70,25 @@ export const signupRouter = s.router(signUpContract, {
       };
     }
   },
+
+  getUserInfo: async () => {
+    //todo jwt 적용 후, 헤더 정보 보내주면 됨
+    return {
+      status: 200,
+      body: {
+        userId: "user",
+        lat: 0.2,
+        lon: 0.2,
+        isRecommendLunch: true,
+      },
+    };
+  },
+
+  //   updateUserInfo: async({body})=>{
+  //     let updateInfo: {
+
+  //     }
+  //   }
 });
 
 const hashing = async (password: string) => {
