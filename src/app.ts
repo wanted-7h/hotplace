@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
 import express from "express";
-import sequelzie from "./db/models";
 import morgan from "morgan";
 import testRouter from "./test/test.router";
 import { dbScheduler } from "./scheduler/scheduler"
-
+import db from "./db/models";
+import { createExpressEndpoints } from "@ts-rest/express";
 
 dotenv.config();
 
@@ -19,7 +19,7 @@ app.use(morgan("dev"));
 
 app.use("/api", testRouter);
 
-sequelzie
+db.sequelize
   .sync({
     force: true, //임시
   })

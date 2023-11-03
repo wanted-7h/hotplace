@@ -18,43 +18,43 @@ export class Review extends Model<
   declare detail: CreationOptional<string>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
-}
 
-export const initReview = (sequelize: Sequelize): void => {
-  Review.init(
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
+  static initReview = (sequelize: Sequelize): void => {
+    Review.init(
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+        },
+        user_id: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        restaurant_name: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        grade: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        detail: {
+          type: DataTypes.TEXT,
+          allowNull: true,
+        },
+        createdAt: DataTypes.DATE,
+        updatedAt: DataTypes.DATE,
       },
-      user_id: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      restaurant_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      grade: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      detail: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
-      createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE,
-    },
-    {
-      modelName: "Review",
-      tableName: "review",
-      timestamps: true,
-      charset: "utf8",
-      collate: "utf8_general_ci",
-      sequelize,
-    }
-  );
-};
+      {
+        modelName: "Review",
+        tableName: "review",
+        timestamps: true,
+        charset: "utf8",
+        collate: "utf8_general_ci",
+        sequelize,
+      }
+    );
+  };
+}

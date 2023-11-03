@@ -1,5 +1,5 @@
 import axios from 'axios';
-const {db} = require('../db/models/')
+import db from "../db/models/index"
 
 export const dbScheduler = async() => {
 
@@ -21,21 +21,29 @@ export const dbScheduler = async() => {
         //[0] = head / [1] = row 
         const restaurants : Restaurant[] = responseData.Genrestrtchifood[1].row;
 
-        const dbData = await db.Restaurant.create({
+        // DB에 들어갈 데이터들
+        const restaurantInfo = {
             restaurant_name:restaurants[0].BIZPLC_NM,
             restaurant_type:restaurants[0].SANITTN_BIZCOND_NM,
             adress:restaurants[0].REFINE_ROADNM_ADDR,
-            lat:restaurants[0].REFINE_WGS84_LAT,
-            lon:restaurants[0].REFINE_WGS84_LOGT
-        })
+            lat:Number(restaurants[0].REFINE_WGS84_LAT),
+            lon:Number(restaurants[0].REFINE_WGS84_LOGT)
+        };
+
+        // insert DB
+        const insertDB = await db.Restaurant.create(restaurantInfo);  
         
-        console.log(dbData)
+        console.log("db에 insert : ", insertDB);
+
     }catch(error){
-        console.log("api 호출 중 오류 발생 : ", error)
+        console.log("api 호출 중 오류 발생 : ", error)  
     }
     
   };
 
+
+
+  // api로 받아오는 json 값들을 미리 정의해주는 인터페이스
 interface Restaurant {
     SIGUN_NM: string;
     BIZPLC_NM: string;
