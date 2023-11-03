@@ -8,6 +8,8 @@ import db from "./db/models";
 import schedule from "node-schedule";
 import { createExpressEndpoints, initServer } from "@ts-rest/express";
 import { contract } from "./contracts";
+import swaggerUi from "swagger-ui-express";
+import { openApiDocument } from "./openapi";
 
 dotenv.config();
 
@@ -19,7 +21,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api", testRouter);
-createExpressEndpoints(signUpContract, signupRouter, app);
+app.use("/openapi", swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
 db.sequelize
   .sync({
