@@ -1,16 +1,16 @@
-import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
 import testRouter from "./test/test.router";
-import { dbScheduler } from "./scheduler/scheduler"
-import db from "./db/models";
+import dotenv from "dotenv";
 import { createExpressEndpoints } from "@ts-rest/express";
+import { signUpContract, signupRouter } from "./user/signup_contract";
+import { dbScheduler } from "./scheduler/scheduler";
+import db from "./db/models";
+import schedule from "node-schedule";
 
 dotenv.config();
 
 const app = express();
-const schedule = require('node-schedule')
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api", testRouter);
+createExpressEndpoints(signUpContract, signupRouter, app);
 
 db.sequelize
   .sync({
@@ -32,8 +33,8 @@ db.sequelize
 
 app.listen(3000, () => {
   console.log("Server On");
-  schedule.scheduleJob('0 * * * * *', function(){
-    dbScheduler()
+  schedule.scheduleJob("0 * * * * *", function () {
+    dbScheduler();
   });
 });
 
