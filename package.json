@@ -1,17 +1,18 @@
 {
   "name": "hotplace",
-  "version": "1.0.0",
+  "private": true,
   "description": "2주차 맛집 추천 웹 서비스 API입니다.",
+  "license": "AGPL-3.0-only",
   "main": "./src/app.ts",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "start": "ts-node ./src/app.ts",
     "dev": "node --watch -r ts-node/register ./src/app.ts",
     "test": "node -r ts-node/register --test ./src/**/*.test.ts",
     "test:watch": "node --watch -r ts-node/register --test ./src/**/*.test.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/node-schedule": "^2.1.2",
     "prettier": "^3.0.3",
