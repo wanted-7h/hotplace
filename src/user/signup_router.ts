@@ -4,8 +4,10 @@ import db from "../db/models/index";
 import { hash, genSalt, compare } from "bcrypt";
 
 const s = initServer();
+
 export const signupRouter = s.router(signUpContract, {
   signup: async ({ body }) => {
+    //todo jwt 발급
     const isDuplication = await db.User.findOne({
       attributes: ["user_id"],
       where: { user_id: body.userId },
@@ -17,6 +19,7 @@ export const signupRouter = s.router(signUpContract, {
         status: 400,
         body: { error: "중복된 아이디" },
       };
+
     const password = await hashing(body.password);
 
     const signupInfo = {
@@ -32,10 +35,7 @@ export const signupRouter = s.router(signUpContract, {
     return {
       status: 201,
       body: {
-        userId: insertValue.dataValues.user_id,
-        lat: insertValue.dataValues.lat,
-        lon: insertValue.dataValues.lon,
-        isRecommendLunch: insertValue.dataValues.is_recommend_lunch,
+        message: `${insertValue.dataValues.user_id}님의 회원가입 성공`,
       },
     };
   },
@@ -72,11 +72,11 @@ export const signupRouter = s.router(signUpContract, {
   },
 
   getUserInfo: async () => {
-    //todo jwt 적용 후, 헤더 정보 보내주면 됨
+    //todo jwt 적용 후, 헤더 정보 보내주면 됨 (db get 할 필요가 없음)
+    //임시생성
     return {
       status: 200,
       body: {
-        userId: "user",
         lat: 0.2,
         lon: 0.2,
         isRecommendLunch: true,
@@ -84,15 +84,47 @@ export const signupRouter = s.router(signUpContract, {
     };
   },
 
-  //   updateUserInfo: async({body})=>{
-  //     let updateInfo: {
+  updateUserInfo: async ({ body }) => {
+    //jwt 적용 후 userid 적용
+    let updateCondition: UpdateCondition = {};
 
-  //     }
-  //   }
+    if (body.isRecommendLunch)
+      updateCondition.is_recommend_lunch = body.isRecommendLunch;
+
+    if (body.lat && body.lon) {
+      updateCondition.lat = body.lat;
+      updateCondition.lon = body.lon;
+    }
+
+    if (updateCondition) {
+      const updateResult = await db.User.update(updateCondition, {
+        where: { user_id: "test" },
+      });
+      if (updateResult[0])
+        return {
+          status: 200,
+          body: { message: "성공" },
+        };
+      return {
+        status: 400,
+        body: { error: "변경사항 없음" },
+      };
+    }
+    return {
+      status: 404,
+      body: { error: "업데이트 정보 없음" },
+    };
+  },
 });
 
+type UpdateCondition = {
+  lat?: number;
+  lon?: number;
+  is_recommend_lunch?: boolean;
+};
+
 const hashing = async (password: string) => {
-  //saltnum env관리
-  const salt = await genSalt(10);
+  //todo saltnum env관리
+  const salt = await genSalt(1);
   return hash(password, salt);
 };

@@ -1,37 +1,24 @@
 import { initContract } from "@ts-rest/core";
 import { z } from "zod";
+import {
+  UserSigninSchema,
+  UserSettingSchema,
+  UserSignupSchema,
+} from "./userSchema";
 export { signupRouter } from "./signup_router";
 
 const contract = initContract();
-
-const signupSchema = z.object({
-  userId: z.string(),
-  password: z.string(),
-  lat: z.coerce.number().optional().default(0.0),
-  lon: z.coerce.number().optional().default(0.0),
-  isRecommendLunch: z.coerce.boolean().optional().default(false),
-});
-
-const UserSettingSchema = z.object({
-  userId: z.string(),
-  lat: z.coerce.number().optional(),
-  lon: z.coerce.number().optional(),
-  isRecommendLunch: z.boolean().optional(),
-});
-
-const SigninSchema = z.object({
-  userId: z.string(),
-  password: z.string(),
-});
 
 export const signUpContract = contract.router({
   signup: {
     method: "POST",
     path: "/users",
     responses: {
-      201: UserSettingSchema,
+      201: z.object({
+        message: z.string(),
+      }),
     },
-    body: signupSchema,
+    body: UserSignupSchema,
     summary: "회원가입",
   },
 
@@ -43,10 +30,7 @@ export const signUpContract = contract.router({
         message: z.string(),
       }),
     },
-    body: z.object({
-      userId: z.string(),
-      password: z.string(),
-    }),
+    body: UserSigninSchema,
     summary: "로그인",
   },
 
@@ -59,15 +43,15 @@ export const signUpContract = contract.router({
     summary: "유저 정보 불러오기",
   },
 
-  // updateUserInfo: {
-  //   method: "PUT",
-  //   path: "/users",
-  //   responses: {
-  //     200: z.object({
-  //       message: z.string(),
-  //     }),
-  //   },
-  //   body: UserSettingSchema,
-  //   summary: "유저 정보 업데이트",
-  // },
+  updateUserInfo: {
+    method: "PUT",
+    path: "/users",
+    responses: {
+      200: z.object({
+        message: z.string(),
+      }),
+    },
+    body: UserSettingSchema,
+    summary: "유저 정보 업데이트",
+  },
 });
