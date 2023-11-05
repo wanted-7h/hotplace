@@ -11,6 +11,7 @@ import { contract } from "./contracts";
 import swaggerUi from "swagger-ui-express";
 import { openApiDocument } from "./openapi";
 import { jwtMiddleware } from "./user/authorization/jwtMiddleware";
+import { reviewContract, reviewRouter } from "./review/review_contract";
 
 dotenv.config();
 
@@ -46,21 +47,27 @@ const router = s.router(contract, {
     body: { id, body: "test body", title: "test" },
   }),
 });
+
 //example
 createExpressEndpoints(contract, router, app);
 
 //users{가입, 로그인}
 createExpressEndpoints(userContract.signup, userRouter.signup, app);
 //users{유저정보, 유저정보 업데이트}
-createExpressEndpoints(userContract.userInfo, userRouter.userInfo, app, {
-  globalMiddleware: [jwtMiddleware],
-});
+createExpressEndpoints(
+  userContract.userInfo,
+  userRouter.userInfo,
+  app,
+  jwtMiddleware,
+);
+//리뷰 작성(맛집 api 이후 수정 필요)
+createExpressEndpoints(reviewContract, reviewRouter, app, jwtMiddleware);
 
 app.listen(3000, () => {
   console.log("Server On");
-  schedule.scheduleJob("0 * * * * *", function () {
-    dbScheduler();
-  });
+  // schedule.scheduleJob("0 * * * * *", function () {
+  //   dbScheduler();
+  // });
 });
 
 /*
