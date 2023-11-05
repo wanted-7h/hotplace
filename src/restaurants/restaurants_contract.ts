@@ -6,7 +6,6 @@ const c = initContract();
 
 export const restaurantsContract = c.router(
   {
-    // getManyByRegion: {},
     getMany: {
       method: "GET",
       path: "/",
