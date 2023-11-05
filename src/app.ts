@@ -1,6 +1,6 @@
 import express from "express";
 import morgan from "morgan";
-import testRouter from "./test/test.router";
+import testRouter from "./test/test.router.ts";
 import dotenv from "dotenv";
 import { userContract, userRouter } from "./user/user_router";
 import { dbScheduler } from "./scheduler/scheduler";
