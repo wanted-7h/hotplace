@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import testRouter from "./test/test.router";
 import dotenv from "dotenv";
-import { signUpContract, signupRouter } from "./user/signup_contract";
+import { userContract, userRouter } from "./user/user_router";
 import { dbScheduler } from "./scheduler/scheduler";
 import db from "./db/models";
 import schedule from "node-schedule";
@@ -10,6 +10,7 @@ import { createExpressEndpoints, initServer } from "@ts-rest/express";
 import { contract } from "./contracts";
 import swaggerUi from "swagger-ui-express";
 import { openApiDocument } from "./openapi";
+import { jwtMiddleware } from "./user/authorization/jwtMiddleware";
 
 dotenv.config();
 
@@ -45,8 +46,15 @@ const router = s.router(contract, {
     body: { id, body: "test body", title: "test" },
   }),
 });
-
+//example
 createExpressEndpoints(contract, router, app);
+
+//users{가입, 로그인}
+createExpressEndpoints(userContract.signup, userRouter.signup, app);
+//users{유저정보, 유저정보 업데이트}
+createExpressEndpoints(userContract.userInfo, userRouter.userInfo, app, {
+  globalMiddleware: [jwtMiddleware],
+});
 
 app.listen(3000, () => {
   console.log("Server On");
