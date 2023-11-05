@@ -2,7 +2,7 @@ import { NextFunction } from "express";
 import { verifyToken } from "./jwtUtils";
 
 //todo insert type
-export const jwtMiddleware = (req: any, res: any, next: NextFunction) => {
+const jwtAuthorization = (req: any, res: any, next: NextFunction) => {
   const accessToken = req.headers.authorization;
   if (accessToken) {
     try {
@@ -15,3 +15,5 @@ export const jwtMiddleware = (req: any, res: any, next: NextFunction) => {
     }
   } else return res.status(401).json({ error: "토큰 없음" });
 };
+
+export const jwtMiddleware = { globalMiddleware: [jwtAuthorization] };
