@@ -11,6 +11,7 @@ import swaggerUi from "swagger-ui-express";
 import { openApiDocument } from "./openapi";
 import { jwtMiddleware } from "./user/authorization/jwtMiddleware";
 import { reviewContract, reviewRouter } from "./review/review_contract";
+import { restaurantsContract, restaurantsRouter } from "./restaurants";
 
 dotenv.config();
 
@@ -34,6 +35,12 @@ db.sequelize
   .catch((err) => {
     console.error(err);
   });
+
+createExpressEndpoints(restaurantsContract, restaurantsRouter, app, {
+  jsonQuery: true,
+  logInitialization: true,
+  responseValidation: true,
+});
 
 //users{가입, 로그인}
 createExpressEndpoints(userContract.signup, userRouter.signup, app);
