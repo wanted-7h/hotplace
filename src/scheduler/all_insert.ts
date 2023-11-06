@@ -39,14 +39,17 @@ export const allInsertDB = async () => {
       const restaurants = responseData.GENRESTRT[1].row;
 
       for (let i in restaurants) {
-        const restaurantInfo = {
-          restaurant_name: restaurants[i].BIZPLC_NM,
-          restaurant_type: restaurants[i].SANITTN_BIZCOND_NM,
-          adress: restaurants[i].REFINE_LOTNO_ADDR, // 도로명 주소가 없는 식당이 존재 함
-          lat: Number(restaurants[i].REFINE_WGS84_LAT),
-          lon: Number(restaurants[i].REFINE_WGS84_LOGT),
-        };
-        const insertDB = await db.Restaurant.create(restaurantInfo);
+        if (restaurants[i].BSN_STATE_NM == "폐업") {
+          // 폐업 가게 추가 x
+          const restaurantInfo = {
+            restaurant_name: restaurants[i].BIZPLC_NM,
+            restaurant_type: restaurants[i].SANITTN_BIZCOND_NM,
+            adress: restaurants[i].REFINE_LOTNO_ADDR, // 도로명 주소가 없는 식당이 존재 함
+            lat: Number(restaurants[i].REFINE_WGS84_LAT),
+            lon: Number(restaurants[i].REFINE_WGS84_LOGT),
+          };
+          const insertDB = await db.Restaurant.create(restaurantInfo);
+        }
       }
     }
   } catch (error) {
