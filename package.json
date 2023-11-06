@@ -21,6 +21,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@anatine/zod-openapi": "^2.2.1",
     "@ts-rest/core": "^3.30.4",
     "@ts-rest/express": "^3.30.4",
     "@ts-rest/open-api": "^3.30.4",
@@ -39,6 +40,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^3.6.2",
     "node-schedule": "^2.1.1",
+    "openapi3-ts": "^4.1.2",
     "sequelize": "^6.33.0",
     "swagger-ui-express": "^5.0.0",
     "zod": "^3.22.4"

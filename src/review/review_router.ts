@@ -7,7 +7,11 @@ const s = initServer();
 export const reviewRouter = s.router(reviewContract, {
   //------------------------------------------------------------------------//
   postReview: {
-    handler: async ({ headers, body, params: { restaurant_name } }) => {
+    handler: async ({
+      headers,
+      body: { grade, detail },
+      params: { restaurant_name },
+    }) => {
       const userId = headers.user?.userId;
 
       // 맛집 데이터 삽입 이후 검증 작업 필요
@@ -21,9 +25,9 @@ export const reviewRouter = s.router(reviewContract, {
       try {
         const insertReview = await db.Review.create({
           user_id: userId,
-          restaurant_name: restaurant_name,
-          grade: body.grade,
-          detail: body.detail,
+          restaurant_name,
+          grade,
+          detail,
         });
         const {
           id: _id,
