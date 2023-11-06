@@ -12,6 +12,8 @@ import { openApiDocument } from "./openapi";
 import { jwtMiddleware } from "./user/authorization/jwtMiddleware";
 import { reviewContract, reviewRouter } from "./review/review_contract";
 import { restaurantsContract, restaurantsRouter } from "./restaurants";
+import { initContract } from "@ts-rest/core";
+import { regionsContract, regionsRouter } from "./regions";
 
 dotenv.config();
 
@@ -36,7 +38,20 @@ db.sequelize
     console.error(err);
   });
 
-createExpressEndpoints(restaurantsContract, restaurantsRouter, app, {
+// 인증 불필요 라우터
+const c = initContract();
+const publicContract = c.router({
+  restaurants: restaurantsContract,
+  regions: regionsContract,
+});
+
+const s = initServer();
+const publicRouter = s.router(publicContract, {
+  restaurants: restaurantsRouter,
+  regions: regionsRouter,
+});
+
+createExpressEndpoints(publicContract, publicRouter, app, {
   jsonQuery: true,
   logInitialization: true,
   responseValidation: true,
@@ -44,6 +59,8 @@ createExpressEndpoints(restaurantsContract, restaurantsRouter, app, {
 
 //users{가입, 로그인}
 createExpressEndpoints(userContract.signup, userRouter.signup, app);
+
+// 인증 필요 라우터
 //users{유저정보, 유저정보 업데이트}
 createExpressEndpoints(
   userContract.userInfo,
