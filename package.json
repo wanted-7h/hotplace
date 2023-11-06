@@ -9,17 +9,16 @@
     "node": ">=20.9.0"
   },
   "scripts": {
-    "start": "ts-node ./src/app.ts",
-    "dev": "node --loader @swc-node/register/esm --watch ./src/app.ts",
-    "test": "node --loader @swc-node/register/esm --test ./src/**/*.test.ts",
-    "test:watch": "node --loader @swc-node/register/esm --watch --test ./src/**/*.test.ts"
+    "start": "tsx ./src/app.ts",
+    "dev": "tsx --watch ./src/app.ts",
+    "test": "tsx --test ./src/**/*.test.ts",
+    "test:watch": "tsx --watch --test ./src/**/*.test.ts"
   },
   "devDependencies": {
-    "@swc-node/register": "^1.6.8",
     "@types/node-schedule": "^2.1.2",
     "prettier": "^3.0.3",
     "sequelize-cli": "^6.6.1",
-    "ts-node": "^10.9.1",
+    "tsx": "^3.14.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
@@ -32,7 +31,6 @@
     "@types/jsonwebtoken": "^9.0.4",
     "@types/morgan": "^1.9.7",
     "@types/node": "^20.8.10",
-    "@types/redis": "^4.0.11",
     "@types/sequelize": "^4.28.17",
     "@types/swagger-ui-express": "^4.1.5",
     "axios": "^1.6.0",
