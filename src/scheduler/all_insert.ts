@@ -7,7 +7,7 @@ export const allInsertDB = async () => {
     //업종명
 
     const getHeadUrl =
-      "https://openapi.gg.go.kr/Genrestrt" +
+      "https://openapi.gg.go.kr/GENRESTRT" +
       "?key=" +
       key +
       "&type=json&pSize=5&pindex=1";
@@ -16,11 +16,11 @@ export const allInsertDB = async () => {
     const headData = getHead.data;
 
     // 데이터 총 개수
-    // const total = headData.Genrestrtchifood[0].head[0].list_total_count;
-    const total = 17;
+    // const total = headData.GENRESTRT[0].head[0].list_total_count;
+    const total = 2000;
     // 한번에 가져올 데이터 수
-    const chunkSize = 5;
-
+    const chunkSize = 100;
+    var cnt = 0;
     for (let idx = 1; idx < total; idx += chunkSize) {
       console.log(idx, "번째 요청");
       const url =
@@ -39,8 +39,10 @@ export const allInsertDB = async () => {
       const restaurants = responseData.GENRESTRT[1].row;
 
       for (let i in restaurants) {
-        if (restaurants[i].BSN_STATE_NM != "폐업") {
-          // 폐업 가게 추가 x
+        if (restaurants[i].BSN_STATE_NM == "폐업") {
+          // 폐업 가게수
+          // cnt++;
+        } else {
           const restaurantInfo = {
             restaurant_name: restaurants[i].BIZPLC_NM,
             restaurant_type: restaurants[i].SANITTN_BIZCOND_NM,
@@ -52,6 +54,7 @@ export const allInsertDB = async () => {
         }
       }
     }
+    // console.log("폐업 가게 수 : ", cnt);
   } catch (error) {
     console.log("api 호출 중 오류 발생 : ", error);
   }
