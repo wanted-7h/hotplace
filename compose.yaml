@@ -1,0 +1,16 @@
+services:
+  db:
+    image: mysql:8.0.35-debian
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hotplace
+      MYSQL_USER: hotplace_user
+      MYSQL_PASSWORD: 1234
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

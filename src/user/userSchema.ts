@@ -18,3 +18,5 @@ export const UserSigninSchema = z.object({
   userId: z.string(),
   password: z.string(),
 });
+
+export const JwtSchema = UserSignupSchema.omit({ password: true });

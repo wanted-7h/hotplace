@@ -2,14 +2,18 @@ import express from "express";
 import morgan from "morgan";
 import testRouter from "./test/test.router";
 import dotenv from "dotenv";
-import { signUpContract, signupRouter } from "./user/signup_contract";
+import { userContract, userRouter } from "./user/user_router";
 import { dbScheduler } from "./scheduler/scheduler";
 import db from "./db/models";
 import schedule from "node-schedule";
 import { createExpressEndpoints, initServer } from "@ts-rest/express";
-import { contract } from "./contracts";
 import swaggerUi from "swagger-ui-express";
 import { openApiDocument } from "./openapi";
+import { jwtMiddleware } from "./user/authorization/jwtMiddleware";
+import { reviewContract, reviewRouter } from "./review/review_contract";
+import { restaurantsContract, restaurantsRouter } from "./restaurants";
+import { initContract } from "@ts-rest/core";
+import { regionsContract, regionsRouter } from "./regions";
 
 dotenv.config();
 
@@ -34,25 +38,44 @@ db.sequelize
     console.error(err);
   });
 
-const s = initServer();
-const router = s.router(contract, {
-  createPost: async ({ body: { body, title } }) => ({
-    status: 201,
-    body: { id: "1", body: body, title: title },
-  }),
-  getPost: async ({ params: { id } }) => ({
-    status: 200,
-    body: { id, body: "test body", title: "test" },
-  }),
+// 인증 불필요 라우터
+const c = initContract();
+const publicContract = c.router({
+  restaurants: restaurantsContract,
+  regions: regionsContract,
 });
 
-// createExpressEndpoints(contract, router, app);
+const s = initServer();
+const publicRouter = s.router(publicContract, {
+  restaurants: restaurantsRouter,
+  regions: regionsRouter,
+});
+
+createExpressEndpoints(publicContract, publicRouter, app, {
+  jsonQuery: true,
+  logInitialization: true,
+  responseValidation: true,
+});
+
+//users{가입, 로그인}
+createExpressEndpoints(userContract.signup, userRouter.signup, app);
+
+// 인증 필요 라우터
+//users{유저정보, 유저정보 업데이트}
+createExpressEndpoints(
+  userContract.userInfo,
+  userRouter.userInfo,
+  app,
+  jwtMiddleware,
+);
+//리뷰 작성(맛집 api 이후 수정 필요)
+createExpressEndpoints(reviewContract, reviewRouter, app, jwtMiddleware);
 
 app.listen(3000, () => {
   console.log("Server On");
-  schedule.scheduleJob("0 * * * * *", function () {
-    dbScheduler();
-  });
+  // schedule.scheduleJob("0 * * * * *", function () {
+  //   dbScheduler();
+  // });
 });
 
 /*
