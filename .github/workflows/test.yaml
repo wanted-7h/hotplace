@@ -30,4 +30,6 @@ jobs:
         name: 포매팅
         run: npx prettier --check .
 
-      - run: npm test
+      # windows + node v20.9.0에서 glob이 제대로 동작하지 않음
+      - if: ${{ !( startsWith( matrix.os, 'windows' ) && matrix.node == '20.9.0' ) }}
+        run: npm test
