@@ -1,6 +1,6 @@
 import { initContract } from "@ts-rest/core";
 import { z } from "../zod_openapi";
-import { coordsSchema } from "../restaurants";
+import { regionNameSchema } from "./regions_schema";
 import { regionSchema } from "./regions_schema";
 
 const c = initContract();
@@ -11,9 +11,9 @@ export const regionsContract = c.router(
       method: "GET",
       path: "/",
       summary: "지역 목록을 조회합니다.",
-      query: regionSchema,
+      query: regionNameSchema,
       responses: {
-        200: z.array(coordsSchema),
+        200: z.array(regionSchema),
       },
     },
   },
