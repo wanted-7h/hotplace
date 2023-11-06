@@ -1,6 +1,7 @@
 {
   "name": "hotplace",
   "private": true,
+  "type": "module",
   "description": "2주차 맛집 추천 웹 서비스 API입니다.",
   "license": "AGPL-3.0-only",
   "main": "./src/app.ts",
@@ -9,11 +10,12 @@
   },
   "scripts": {
     "start": "ts-node ./src/app.ts",
-    "dev": "node --watch -r ts-node/register ./src/app.ts",
-    "test": "node -r ts-node/register --test ./src/**/*.test.ts",
-    "test:watch": "node --watch -r ts-node/register --test ./src/**/*.test.ts"
+    "dev": "node --loader @swc-node/register/esm --watch ./src/app.ts",
+    "test": "node --loader @swc-node/register/esm --test ./src/**/*.test.ts",
+    "test:watch": "node --loader @swc-node/register/esm --watch --test ./src/**/*.test.ts"
   },
   "devDependencies": {
+    "@swc-node/register": "^1.6.8",
     "@types/node-schedule": "^2.1.2",
     "prettier": "^3.0.3",
     "sequelize-cli": "^6.6.1",

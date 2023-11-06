@@ -1,10 +1,13 @@
 import { initServer } from "@ts-rest/express";
-import { regionsContract } from "./regions_contract";
-import { Region, RegionName } from "./regions_schema";
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const raw = readFileSync(join(__dirname, "regions.json"), { encoding: "utf8" });
+import { regionsContract } from "./regions_contract.ts";
+import { Region, RegionName } from "./regions_schema.ts";
+
+const path = join(dirname(fileURLToPath(import.meta.url)), "regions.json");
+const raw = readFileSync(path, { encoding: "utf8" });
 const regions = JSON.parse(raw) as Region[];
 
 const byRegion =

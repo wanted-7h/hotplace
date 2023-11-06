@@ -1,7 +1,6 @@
 import { initContract } from "@ts-rest/core";
 import { z } from "zod";
 import { UserSigninSchema, UserSignupSchema } from "../userSchema";
-export { signupRouter } from "./signup_router";
 
 const contract = initContract();
 
