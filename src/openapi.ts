@@ -4,12 +4,14 @@ import { reviewContract } from "./review/review_contract";
 import { restaurantsContract } from "./restaurants";
 import { signupContract } from "./user/signup/signup_contract";
 import { userInfoContract } from "./user/userInfo/userInfo_contract";
+import { regionsContract } from "./regions";
 
 const c = initContract();
 
 const api = c.router({
   user: { ...signupContract, ...userInfoContract },
   restaurants: { ...restaurantsContract, ...reviewContract },
+  regions: regionsContract,
 });
 
 export const openApiDocument = generateOpenApi(api, {
