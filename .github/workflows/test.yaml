@@ -8,13 +8,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node: [18.18.2, 20.9.0, 21.x]
+        node: [20.9.0, 21.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
-    name: Node.js ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    name: ${{matrix.os}}/Node.js ${{ matrix.node }}
 
     steps:
       - uses: actions/checkout@v3
