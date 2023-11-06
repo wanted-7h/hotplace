@@ -39,7 +39,7 @@ export const allInsertDB = async () => {
       const restaurants = responseData.GENRESTRT[1].row;
 
       for (let i in restaurants) {
-        if (restaurants[i].BSN_STATE_NM == "폐업") {
+        if (restaurants[i].BSN_STATE_NM != "폐업") {
           // 폐업 가게 추가 x
           const restaurantInfo = {
             restaurant_name: restaurants[i].BIZPLC_NM,
