@@ -1,19 +1,12 @@
 import { Sequelize } from "sequelize";
-import { Config } from "../../types";
 import { User } from "./user";
 import { Restaurant } from "./restaurant";
 import { Review } from "./review";
-import configData from "../config/config";
+import configs from "../config/config";
 
-const configs: Config = configData;
 //임시
 const env = "test";
 const config = configs[env];
-
-interface DB {
-  [key: string]: any;
-  sequelize?: Sequelize;
-}
 
 const sequelize = new Sequelize(
   config.database,
@@ -24,12 +17,7 @@ const sequelize = new Sequelize(
     dialect: "mysql",
   },
 );
-const db = {
-  sequelize: sequelize,
-  User: User,
-  Review: Review,
-  Restaurant: Restaurant,
-};
+const db = { sequelize, User, Review, Restaurant };
 
 db.User.initUser(sequelize);
 db.Review.initReview(sequelize);
