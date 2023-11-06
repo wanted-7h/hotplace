@@ -25,7 +25,7 @@ app.use("/openapi", swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
 db.sequelize
   .sync({
-    force: true, //임시
+    force: false, //임시
   })
   .then(() => {
     console.log("connected");
@@ -46,7 +46,7 @@ const router = s.router(contract, {
   }),
 });
 
-createExpressEndpoints(contract, router, app);
+// createExpressEndpoints(contract, router, app);
 
 app.listen(3000, () => {
   console.log("Server On");
