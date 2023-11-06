@@ -1,7 +1,6 @@
 import { initContract } from "@ts-rest/core";
-import { ReviewBodySchema, ReviewSchema } from "./reviewSchema";
+import { ReviewBodySchema, ReviewSchema } from "./review_schema";
 import { BaseHeadersSchema } from "../schemas";
-export { reviewRouter } from "./review_router";
 
 const contract = initContract();
 

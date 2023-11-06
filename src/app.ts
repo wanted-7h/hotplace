@@ -10,7 +10,7 @@ import { createExpressEndpoints, initServer } from "@ts-rest/express";
 import swaggerUi from "swagger-ui-express";
 import { openApiDocument } from "./openapi";
 import { jwtMiddleware } from "./user/authorization/jwtMiddleware";
-import { reviewContract, reviewRouter } from "./review/review_contract";
+import { reviewRouter, reviewContract } from "./review/mod.ts";
 import { restaurantsContract, restaurantsRouter } from "./restaurants";
 import { initContract } from "@ts-rest/core";
 import { regionsContract, regionsRouter } from "./regions";
