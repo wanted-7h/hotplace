@@ -31,6 +31,11 @@ npm install
 npm run dev
 ```
 
+### api_key
+
+- [경기데이터드림](https://data.gg.go.kr/portal/mainPage.do) 접속 후 회원가입을 진행
+- 마이페이지에서 인증키 발급을 통해 apikey을 얻을 수 있습니다.
+
 ## 테스트 방법
 
 [노드 내장 테스트 러너](https://nodejs.org/docs/latest-v20.x/api/test.html)를 사용합니다.
