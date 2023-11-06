@@ -9,10 +9,10 @@
     "node": ">=20.9.0"
   },
   "scripts": {
-    "start": "node --import tsx ./src/app.ts",
-    "dev": "node --import tsx --watch ./src/app.ts",
-    "test": "node --import tsx --test ./src/**/*.test.ts",
-    "test:watch": "node --import tsx --watch --test ./src/**/*.test.ts"
+    "start": "tsx ./src/app.ts",
+    "dev": "tsx --watch ./src/app.ts",
+    "test": "tsx --test ./src/**/*.test.ts",
+    "test:watch": "tsx --watch --test ./src/**/*.test.ts"
   },
   "devDependencies": {
     "@types/node-schedule": "^2.1.2",
