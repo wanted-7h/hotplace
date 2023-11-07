@@ -7,9 +7,11 @@ const jwtAuthorization = (req: any, res: any, next: NextFunction) => {
   if (accessToken) {
     try {
       const verifiedToken = verifyToken(accessToken);
-      req.headers.user = verifiedToken.payload;
+      if (verifiedToken.validation) {
+        req.headers.user = verifiedToken.payload;
 
-      return next();
+        return next();
+      } else return res.status(401).json({ error: "유효하지 않은 토큰" });
     } catch (err: any) {
       return res.status(401).json({ error: err.message });
     }

@@ -14,7 +14,7 @@ import { reviewRouter, reviewContract } from "./review/mod.ts";
 import { restaurantsContract, restaurantsRouter } from "./restaurants";
 import { initContract } from "@ts-rest/core";
 import { regionsContract, regionsRouter } from "./regions";
-import {} from "node:fs";
+import { authContract, authRouter } from "./user/auth/auth_contract";
 
 dotenv.config();
 
@@ -57,6 +57,9 @@ createExpressEndpoints(publicContract, publicRouter, app, {
   logInitialization: true,
   responseValidation: true,
 });
+
+//토큰 재발급(액세스, 리프래시)
+createExpressEndpoints(authContract, authRouter, app);
 
 //users{가입, 로그인}
 createExpressEndpoints(userContract.signup, userRouter.signup, app);
