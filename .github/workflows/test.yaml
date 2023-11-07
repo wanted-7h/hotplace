@@ -8,13 +8,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node: [18.18.2, 20.9.0, 21.x]
+        node: [20.9.0, 21.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
-    name: Node.js ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }}/Node.js ${{ matrix.node }}
 
     steps:
       - uses: actions/checkout@v3
@@ -25,6 +25,11 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - name: 포매팅
+
+      - if: startsWith( matrix.os, 'ubuntu' )
+        name: 포매팅
         run: npx prettier --check .
-      - run: npm test
+
+      # windows + node v20.9.0에서 glob이 제대로 동작하지 않음
+      - if: ${{ !( startsWith( matrix.os, 'windows' ) && matrix.node == '20.9.0' ) }}
+        run: npm test
