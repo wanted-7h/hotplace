@@ -1,20 +1,15 @@
 import { initServer } from "@ts-rest/express";
 import db from "../../db/models/index";
 import { userInfoContract } from "./userInfo_contract";
+import { createAccessToken } from "../authorization/jwtUtils";
+import { UpdateCondition } from "../userSchema";
 
 const s = initServer();
-
-type UpdateCondition = {
-  lat?: number;
-  lon?: number;
-  is_recommend_lunch?: boolean;
-};
 
 export const userInfoRouter = s.router(userInfoContract, {
   //------------------------------------------------------------------------//
   getUserInfo: {
     handler: async ({ headers }) => {
-      //유효성 검사덕에 header.user가 보장됨
       const user = headers.user;
 
       return {
@@ -30,36 +25,53 @@ export const userInfoRouter = s.router(userInfoContract, {
   //------------------------------------------------------------------------//
   updateUserInfo: {
     handler: async ({ headers, body }) => {
-      //업데이트 후 바뀐 유저정보 고민 필요
-      const user = headers.user;
+      //headers.user는 미들웨어를 통과하면 보장되는데, 타입 이슈때문에 if header.user를 걸어놓음.
+      //리펙토링 필요
+      if (headers.user) {
+        let user = headers.user;
 
-      let updateCondition: UpdateCondition = {};
+        let updateCondition: UpdateCondition = {};
 
-      if (body.isRecommendLunch)
-        updateCondition.is_recommend_lunch = body.isRecommendLunch;
+        if (body.isRecommendLunch)
+          updateCondition.is_recommend_lunch = body.isRecommendLunch;
 
-      if (body.lat && body.lon) {
-        updateCondition.lat = body.lat;
-        updateCondition.lon = body.lon;
-      }
+        if (body.lat && body.lon) {
+          updateCondition.lat = body.lat;
+          updateCondition.lon = body.lon;
+        }
 
-      if (updateCondition) {
-        const updateResult = await db.User.update(updateCondition, {
-          where: { user_id: user?.userId },
-        });
-        if (updateResult[0])
+        if (updateCondition) {
+          const updateResult = await db.User.update(updateCondition, {
+            where: { user_id: user?.userId },
+          });
+          if (updateResult[0]) {
+            const tokenInfo = {
+              userId: user?.userId,
+              lat: body.lat ? body.lat : user?.lat,
+              lon: body.lon ? body.lon : user?.lon,
+              isRecommendLunch: body.isRecommendLunch
+                ? body.isRecommendLunch
+                : user?.isRecommendLunch,
+            };
+            const newAccessToken = createAccessToken(tokenInfo);
+            return {
+              status: 200,
+              body: { accessToken: newAccessToken },
+            };
+          }
           return {
-            status: 200,
-            body: { message: "성공" },
+            status: 400,
+            body: { error: "변경사항 없음" },
           };
+        }
         return {
           status: 400,
-          body: { error: "변경사항 없음" },
+          body: { error: "잘못된 요청, 업데이트 정보 없음" },
         };
       }
       return {
-        status: 404,
-        body: { error: "업데이트 정보 없음" },
+        status: 401,
+        body: { error: "잘못된 접근, 토큰 없음" },
       };
     },
   },

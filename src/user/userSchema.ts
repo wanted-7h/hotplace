@@ -20,3 +20,9 @@ export const UserSigninSchema = z.object({
 });
 
 export const JwtSchema = UserSignupSchema.omit({ password: true });
+
+export type UpdateCondition = {
+  lat?: number;
+  lon?: number;
+  is_recommend_lunch?: boolean;
+};

@@ -21,7 +21,7 @@ export const userInfoContract = contract.router(
       path: "/users",
       responses: {
         200: z.object({
-          message: z.string(),
+          accessToken: z.string(),
         }),
       },
       body: UserSettingSchema,
