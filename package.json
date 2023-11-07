@@ -9,10 +9,10 @@
     "node": ">=20.9.0"
   },
   "scripts": {
-    "start": "ts-node ./src/app.ts",
-    "dev": "node --loader @swc-node/register/esm --watch ./src/app.ts",
-    "test": "node --loader @swc-node/register/esm --test ./src/**/*.test.ts",
-    "test:watch": "node --loader @swc-node/register/esm --watch --test ./src/**/*.test.ts"
+    "start": "node --import tsx ./src/app.ts",
+    "dev": "node --import tsx --watch ./src/app.ts",
+    "test": "node --import tsx --test ./src/**/*.test.ts",
+    "test:watch": "node --import tsx --watch --test ./src/**/*.test.ts"
   },
   "devDependencies": {
     "@swc-node/register": "^1.6.8",
@@ -47,6 +47,7 @@
     "redis": "^4.6.10",
     "sequelize": "^6.33.0",
     "swagger-ui-express": "^5.0.0",
+    "tsx": "^3.14.0",
     "zod": "^3.22.4"
   }
 }
