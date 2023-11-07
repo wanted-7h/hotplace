@@ -3,7 +3,7 @@ import morgan from "morgan";
 import testRouter from "./test/test.router.ts";
 import dotenv from "dotenv";
 import { userContract, userRouter } from "./user/user_router";
-import { dbScheduler } from "./scheduler/scheduler";
+import { dbScheduler } from "./scheduler/scheduler.ts";
 import db from "./db/models";
 import schedule from "node-schedule";
 import { createExpressEndpoints, initServer } from "@ts-rest/express";
@@ -14,6 +14,7 @@ import { reviewRouter, reviewContract } from "./review/mod.ts";
 import { restaurantsContract, restaurantsRouter } from "./restaurants";
 import { initContract } from "@ts-rest/core";
 import { regionsContract, regionsRouter } from "./regions";
+import {} from "node:fs";
 
 dotenv.config();
 
@@ -73,9 +74,9 @@ createExpressEndpoints(reviewContract, reviewRouter, app, jwtMiddleware);
 
 app.listen(3000, () => {
   console.log("Server On");
-  // schedule.scheduleJob("0 * * * * *", function () {
-  //   dbScheduler();
-  // });
+  schedule.scheduleJob("0 * * * * *", function () {
+    dbScheduler();
+  });
 });
 
 /*
