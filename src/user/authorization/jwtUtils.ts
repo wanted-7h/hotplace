@@ -49,12 +49,8 @@ export const verifyRefreshToken = async (
   const refreshTokenKey = `refreshToken_${userId}`;
   const userRt = await redisClient.get(refreshTokenKey);
   if (userRt === refreshToken) {
-    try {
-      const decoded = verifyToken(refreshToken);
-      return decoded.validation;
-    } catch {
-      return false;
-    }
+    const decoded = verifyToken(refreshToken);
+    return decoded.validation;
   }
   return false;
 };
