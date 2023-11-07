@@ -1,9 +1,6 @@
 import jwt from "jsonwebtoken";
-import { z } from "zod";
-import { JwtSchema } from "../userSchema";
+import { UserInfo } from "../userSchema";
 import redisClient from "../../redis";
-
-export type UserInfo = z.infer<typeof JwtSchema>;
 
 const SECRET_KEY = process.env.JWT_SECRECT_KEY || ("secret" as string);
 const AT_EXPIRED = process.env.AT_EXPIRE || ("1m" as string);
@@ -30,7 +27,7 @@ export const verifyToken = (token: string) => {
 };
 
 export const createRefreshToken = (userId: string) => {
-  const newRefreshToken = jwt.sign({ userId: userId }, SECRET_KEY, {
+  const newRefreshToken = jwt.sign({}, SECRET_KEY, {
     algorithm: "HS256",
     expiresIn: RT_EXPIRED,
   });
