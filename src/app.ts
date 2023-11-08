@@ -25,16 +25,6 @@ app.use(morgan("dev"));
 app.use("/api", testRouter);
 app.use("/openapi", swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
-db.sequelize
-  .sync({
-    force: false, //임시
-  })
-  .then(() => {
-    console.log("connected");
-  })
-  .catch((err) => {
-    console.error(err);
-  });
 
 // 인증 불필요 라우터
 const c = initContract();
