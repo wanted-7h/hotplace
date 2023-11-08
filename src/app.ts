@@ -74,11 +74,11 @@ createExpressEndpoints(
 //리뷰 작성(맛집 api 이후 수정 필요)
 createExpressEndpoints(reviewContract, reviewRouter, app, jwtMiddleware);
 
-app.listen(3000, () => {
+app.listen(3000, async () => {
   console.log("Server On");
-  schedule.scheduleJob("0 * * * * *", function () {
-    dbScheduler();
-  });
+
+  await dbScheduler();
+  schedule.scheduleJob("0 0 0 * * *", dbScheduler);
 });
 
 /*
