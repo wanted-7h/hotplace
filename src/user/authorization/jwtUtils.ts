@@ -8,7 +8,10 @@ const RT_EXPIRED = process.env.RT_EXPIRE || ("3m" as string);
 const RT_EXPIRED_BY_NUMBER =
   60 * 60 * 24 * Number(process.env.RT_EXPIRED_BY_NUMBER || 1);
 
-export const createAccessToken = (user: UserInfo) =>
+export const createAccessToken = ({
+  exp: _exp,
+  ...user
+}: UserInfo & { exp?: number }) =>
   jwt.sign(user, SECRET_KEY, {
     algorithm: "HS256",
     expiresIn: AT_EXPIRED,
