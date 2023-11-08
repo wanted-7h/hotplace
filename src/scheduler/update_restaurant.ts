@@ -3,7 +3,7 @@ import db from "../db/models/index";
 import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { restaurantsRouter } from "../restaurants";
+import { env } from "../env";
 
 export const updateRestData = async () => {
   const today = new Date(2023, 11, 10).getDay();
@@ -16,7 +16,7 @@ export const updateRestData = async () => {
 };
 
 const updateDB = async (_sectors: string) => {
-  const key = process.env.api_key;
+  const key = env.API_KEY;
 
   try {
     //업종명

@@ -1,15 +1,15 @@
 import axios from "axios";
 import db from "../db/models/index";
+import { env } from "../env";
 
 export const allInsertDB = async () => {
-  const key = process.env.api_key;
   try {
     //업종명
 
     const getHeadUrl =
       "https://openapi.gg.go.kr/GENRESTRT" +
       "?key=" +
-      key +
+      env.API_KEY +
       "&type=json&pSize=5&pindex=1";
 
     const getHead = await axios.get(getHeadUrl);
@@ -26,7 +26,7 @@ export const allInsertDB = async () => {
       const url =
         "https://openapi.gg.go.kr/GENRESTRT" +
         "?key=" +
-        key +
+        env.API_KEY +
         "&type=json&pSize=" +
         chunkSize +
         "&pindex=" +
