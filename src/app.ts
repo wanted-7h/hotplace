@@ -23,18 +23,20 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api", testRouter);
-app.use("/openapi", swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
-db.sequelize
-  .sync({
-    force: false, //임시
-  })
-  .then(() => {
-    console.log("connected");
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+const swaggerUrl = "/openapi.json";
+app.get(swaggerUrl, (_req, res) => res.json(openApiDocument));
+app.use(
+  "/openapi",
+  swaggerUi.serveFiles(undefined, { swaggerUrl }),
+  swaggerUi.setup(undefined, {
+    swaggerUrl,
+    swaggerOptions: {
+      persistAuthorization: true,
+      withCredentials: true,
+    },
+  }),
+);
 
 // 인증 불필요 라우터
 const c = initContract();
@@ -72,11 +74,11 @@ createExpressEndpoints(
 //리뷰 작성(맛집 api 이후 수정 필요)
 createExpressEndpoints(reviewContract, reviewRouter, app, jwtMiddleware);
 
-app.listen(3000, () => {
+app.listen(3000, async () => {
   console.log("Server On");
-  schedule.scheduleJob("0 * * * * *", function () {
-    dbScheduler();
-  });
+
+  await dbScheduler();
+  schedule.scheduleJob("0 0 0 * * *", dbScheduler);
 });
 
 /*

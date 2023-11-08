@@ -1,17 +1,9 @@
 import { createClient } from "redis";
 
 //default local 127.0.0.1:6379
-const redisClient = createClient();
-
-await redisClient.connect();
-console.log("redis is connected");
-
-redisClient.on("ready", () => {
-  console.log("redis is ready");
-});
-
-redisClient.on("error", (error) => {
-  console.log(error);
-});
+const redisClient = await createClient()
+  .on("ready", () => console.log("redis is ready"))
+  .on("error", (error) => console.log("redis error:", error))
+  .connect();
 
 export default redisClient;

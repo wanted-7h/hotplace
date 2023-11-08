@@ -7,6 +7,13 @@ import { dbSchema } from "../../env";
 const config = dbSchema.parse(process.env);
 const sequelize = new Sequelize(config);
 
+await sequelize
+  .sync({
+    force: false, //임시
+  })
+  .then(() => console.log("sequelize is connected"))
+  .catch((err) => console.error("sequelize error:", err));
+
 const db = { sequelize, User, Review, Restaurant };
 
 db.User.initUser(sequelize);
