@@ -1,11 +1,10 @@
-import * as redis from "redis";
+import { createClient } from "redis";
 
 //default local 127.0.0.1:6379
-const redisClient = redis.createClient();
+const redisClient = createClient();
 
-redisClient.connect().then(() => {
-  console.log("redis is connected");
-});
+await redisClient.connect();
+console.log("redis is connected");
 
 redisClient.on("ready", () => {
   console.log("redis is ready");

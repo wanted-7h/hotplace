@@ -21,6 +21,17 @@ export const UserSigninSchema = z.object({
 
 export const JwtSchema = UserSignupSchema.omit({ password: true });
 
+export type UserInfo = z.infer<typeof JwtSchema>;
+
+declare module "jsonwebtoken" {
+  export interface JwtPayload {
+    userId: string;
+    lat: number;
+    lon: number;
+    isRecommendLunch: boolean;
+  }
+}
+
 export type UpdateCondition = {
   lat?: number;
   lon?: number;
