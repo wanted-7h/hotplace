@@ -9,10 +9,10 @@
     "node": ">=20.9.0"
   },
   "scripts": {
-    "start": "tsx ./src/app.ts",
-    "dev": "tsx --watch ./src/app.ts",
-    "test": "tsx --test ./src/**/*.test.ts",
-    "test:watch": "tsx --watch --test ./src/**/*.test.ts"
+    "start": "tsx --env-file=.env ./src/app.ts",
+    "dev": "tsx --env-file=.env --watch ./src/app.ts",
+    "test": "tsx --env-file=.env --test ./src/**/*.test.ts",
+    "test:watch": "tsx --env-file=.env --watch --test ./src/**/*.test.ts"
   },
   "devDependencies": {
     "@types/node-schedule": "^2.1.2",
