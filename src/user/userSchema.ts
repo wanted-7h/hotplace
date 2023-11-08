@@ -31,3 +31,9 @@ declare module "jsonwebtoken" {
     isRecommendLunch: boolean;
   }
 }
+
+export type UpdateCondition = {
+  lat?: number;
+  lon?: number;
+  is_recommend_lunch?: boolean;
+};
