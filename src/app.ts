@@ -23,8 +23,20 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api", testRouter);
-app.use("/openapi", swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
+const swaggerUrl = "/openapi.json";
+app.get(swaggerUrl, (_req, res) => res.json(openApiDocument));
+app.use(
+  "/openapi",
+  swaggerUi.serveFiles(undefined, { swaggerUrl }),
+  swaggerUi.setup(undefined, {
+    swaggerUrl,
+    swaggerOptions: {
+      persistAuthorization: true,
+      withCredentials: true,
+    },
+  }),
+);
 
 // 인증 불필요 라우터
 const c = initContract();
