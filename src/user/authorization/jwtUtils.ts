@@ -29,13 +29,15 @@ export const verifyToken = (token: string) => {
   }
 };
 
+const toRefreshId = <const T extends string>(userId: T) =>
+  `refreshToken_${userId}`;
+
 export const createRefreshToken = (userId: string) => {
   const newRefreshToken = jwt.sign({}, SECRET_KEY, {
     algorithm: "HS256",
     expiresIn: RT_EXPIRED,
   });
-  const refreshTokenKey = `refreshToken_${userId}`;
-  redisClient.set(refreshTokenKey, newRefreshToken, {
+  redisClient.set(toRefreshId(userId), newRefreshToken, {
     EX: RT_EXPIRED_BY_NUMBER,
   });
 
@@ -46,8 +48,7 @@ export const verifyRefreshToken = async (
   refreshToken: string,
   userId: string,
 ) => {
-  const refreshTokenKey = `refreshToken_${userId}`;
-  const userRt = await redisClient.get(refreshTokenKey);
+  const userRt = await redisClient.get(toRefreshId(userId));
   if (userRt === refreshToken) {
     const decoded = verifyToken(refreshToken);
     return decoded.validation;
