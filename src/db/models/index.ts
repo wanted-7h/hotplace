@@ -2,21 +2,11 @@ import { Sequelize } from "sequelize";
 import { User } from "./user";
 import { Restaurant } from "./restaurant";
 import { Review } from "./review";
-import configs from "../config/config";
+import { dbSchema } from "../../env";
 
-//임시
-const env = "test";
-const config = configs[env];
+const config = dbSchema.parse(process.env);
+const sequelize = new Sequelize(config);
 
-const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password === null ? undefined : config.password,
-  {
-    host: config.host,
-    dialect: "mysql",
-  },
-);
 const db = { sequelize, User, Review, Restaurant };
 
 db.User.initUser(sequelize);

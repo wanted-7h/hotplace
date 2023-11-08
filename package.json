@@ -9,10 +9,10 @@
     "node": ">=20.9.0"
   },
   "scripts": {
-    "start": "tsx ./src/app.ts",
-    "dev": "tsx --watch ./src/app.ts",
-    "test": "tsx --test ./src/**/*.test.ts",
-    "test:watch": "tsx --watch --test ./src/**/*.test.ts"
+    "start": "tsx --env-file=.env ./src/app.ts",
+    "dev": "tsx --env-file=.env --watch ./src/app.ts",
+    "test": "tsx --env-file=.env --test ./src/**/*.test.ts",
+    "test:watch": "tsx --env-file=.env --watch --test ./src/**/*.test.ts"
   },
   "devDependencies": {
     "@types/node-schedule": "^2.1.2",
@@ -31,12 +31,10 @@
     "@types/jsonwebtoken": "^9.0.4",
     "@types/morgan": "^1.9.7",
     "@types/node": "^20.8.10",
-    "@types/redis": "^4.0.11",
     "@types/sequelize": "^4.28.17",
     "@types/swagger-ui-express": "^4.1.5",
     "axios": "^1.6.0",
     "bcrypt": "^5.1.1",
-    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",

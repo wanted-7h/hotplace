@@ -1,7 +1,6 @@
 import express from "express";
 import morgan from "morgan";
 import testRouter from "./test/test.router.ts";
-import dotenv from "dotenv";
 import { userContract, userRouter } from "./user/user_router";
 import { dbScheduler } from "./scheduler/scheduler.ts";
 import db from "./db/models";
@@ -15,8 +14,6 @@ import { restaurantsContract, restaurantsRouter } from "./restaurants";
 import { initContract } from "@ts-rest/core";
 import { regionsContract, regionsRouter } from "./regions";
 import { authContract, authRouter } from "./user/auth/index";
-
-dotenv.config();
 
 const app = express();
 

@@ -6,6 +6,7 @@ import {
   createAccessToken,
   createRefreshToken,
 } from "../authorization/jwtUtils";
+import { env } from "../../env.ts";
 
 const s = initServer();
 
@@ -85,7 +86,6 @@ export const signupRouter = s.router(signupContract, {
 });
 
 const hashing = async (password: string) => {
-  const saltNum = Number(process.env.SALT_NUM) || 5;
-  const salt = await genSalt(saltNum);
+  const salt = await genSalt(env.JWT_SALT_ROUNDS);
   return hash(password, salt);
 };
