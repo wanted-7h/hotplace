@@ -6,7 +6,7 @@ const SECRET_KEY = process.env.JWT_SECRECT_KEY || ("secret" as string);
 const AT_EXPIRED = process.env.AT_EXPIRE || ("1m" as string);
 const RT_EXPIRED = process.env.RT_EXPIRE || ("3m" as string);
 const RT_EXPIRED_BY_NUMBER =
-  60 * 60 * 24 * Number(process.env.RT_EXPIRED_BY_NUMBER);
+  60 * 60 * 24 * Number(process.env.RT_EXPIRED_BY_NUMBER || 1);
 
 export const createAccessToken = (user: UserInfo) =>
   jwt.sign(user, SECRET_KEY, {
