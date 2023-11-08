@@ -14,7 +14,7 @@ import { reviewRouter, reviewContract } from "./review/mod.ts";
 import { restaurantsContract, restaurantsRouter } from "./restaurants";
 import { initContract } from "@ts-rest/core";
 import { regionsContract, regionsRouter } from "./regions";
-import { authContract, authRouter } from "./user/auth/auth_contract";
+import { authContract, authRouter } from "./user/auth/index";
 
 dotenv.config();
 

@@ -1,6 +1,5 @@
 import { initContract } from "@ts-rest/core";
 import { z } from "zod";
-export { authRouter } from "./auth_router";
 
 const contract = initContract();
 
